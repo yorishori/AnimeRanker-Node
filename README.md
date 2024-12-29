@@ -9,6 +9,7 @@
 
 ## Dependencies
 - SQLite: I was going to build my own data manager, but not worth it (maybe in a future version I'll add the module).
+- Tailwind: I strongly dislike CSS and making pages look good. Hope this helps.
 
 ## How to execute project
 > ### **Software requirements (the ones I have):** <br>
@@ -17,8 +18,9 @@
 > - **SQLite Studio**: A light-weight SQLite manager to create database structure, and manage and test data.
 
 Initialize the project: ```npm install``` in project directory. <br>
-Then ```node start```, accesible at http://localhost:1998. You can change it in [here].
+Then ```node start```, accesible at http://localhost:1998. You can change it in [here](bin/nyanMain.js) <br>
+Also ```node run tailwind``` to start the tailwind watcher and build the css. <br>
 
 To create the database:
-1. Create a DB file ```sqlite/nyan.db```. You can put it wherever you like as long as you change the [database js](bin/nyanDatabase.js).
+1. Create a DB file at ```sqlite/nyan.db```. You can put it wherever you like as long as you change the [database js](bin/nyanDatabase.js).
 2. Open SQLite Studio and execute [Schema.sql](sqlite/schema.sql).

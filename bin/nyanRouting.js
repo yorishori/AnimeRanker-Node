@@ -11,10 +11,10 @@ const files = {
 		// HTML
 		{vpath:"/", path:"static/html/index.html", type:"text/html"},
 		// CSS
-		{vpath:"/style.css", path:"static/css/style.css", type:"text/css"},
-		{vpath:"/index.js", path:"static/js/index.js", type:"text/css"},
+		{vpath:"/output.css", path:"static/css/output.css", type:"text/css"},
 		// JS
-		{vpath:"/jquery.js", path:"lib/jquery-3.7.1.slim.min.js", type:"text/js"},
+		{vpath:"/index.js", path:"static/js/index.js", type:"text/javascript"},
+		{vpath:"/jquery.js", path:"lib/jquery-3.7.1.slim.min.js", type:"text/javascript"},
 		// Assets
 		{vpath:"/favicon.png", path:"static/assets/favicon.png", type:"image/png"}
 	],
