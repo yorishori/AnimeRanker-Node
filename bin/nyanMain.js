@@ -1,14 +1,10 @@
 const https = require('node:http');
-const fs = require('node:fs');
 const nyaR = require('./nyanRouting.js');
-const nyanDB = require('./nyanDatabase.js');
 
 // Set hostname and port
 const hostname = 'localhost';
 const port = 1998;
 
-// Check database
-nyanDB.nyanTegrity();
 
 //Create server and listen
 const nyanServer = https.createServer((req,res) => {

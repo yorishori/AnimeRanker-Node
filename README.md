@@ -18,8 +18,8 @@
 > - **SQLite Studio**: A light-weight SQLite manager to create database structure, and manage and test data.
 
 Initialize the project: ```npm install``` in project directory. <br>
-Then ```node start```, accesible at http://localhost:1998. You can change it in [here](bin/nyanMain.js) <br>
-Also ```node run tailwind``` to start the tailwind watcher and build the css. <br>
+Then ```npm start```, accesible at http://localhost:1998. You can change it in [here](bin/nyanMain.js) <br>
+Also ```npm run tailwind``` to start the tailwind watcher and build the css. <br>
 
 To create the database:
 1. Create a DB file at ```sqlite/nyan.db```. You can put it wherever you like as long as you change the [database js](bin/nyanDatabase.js).

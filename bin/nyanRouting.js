@@ -1,6 +1,7 @@
 const https = require("node:http");
 const fs = require("node:fs");
 const nyaDB = require("./nyanDatabase.js");
+const post_timeout_ms = 120*1000;
 
 
 /*===============================
@@ -18,6 +19,9 @@ const files = {
 		// Assets
 		{vpath:"/favicon.png", path:"static/assets/favicon.png", type:"image/png"}
 	],
+	db:[
+		{vpath:"/saves/headers", type:"text/json"}
+	],
 	err:{
 		db:{status:503, path:"static/html/err/dberr.html"},
 		nyan:{status:418, path:"static/html/err/nyan.html"},
@@ -26,7 +30,7 @@ const files = {
 
 
 /*===============================
-=			FUNTIONS			=
+=			FUNCTIONS			=
 ===============================*/
 /** Return the response depending on request
  * 
@@ -43,10 +47,10 @@ function nyanReq(req){
 			case "GET":
 				nyanGet(res, vPath);break;
 			case "POST":
-				//routePost(req);break;
+				nyanPost(res, req);break;
 			default:
 				res.head.status = 501;
-				res.val = `Something went wrong with resquested method :(`;
+				res.val = `Something went wrong with requested method :(`;
 				console.log(`Client requested unimplemented method: "${req.method}"`);
 				break;
 		}
@@ -59,18 +63,19 @@ function nyanReq(req){
 	}
 }
 
-/** Route from content type of request
+/** 
  * 
  * @param {any}	res reference to custom reponse json (updatable)
  * @param {string} vPath virtual path from request
  */
 function nyanGet(res, vPath){
+	// Search static files
 	for(i=0; i<files.static.length; i++){
 		let e = files.static[i];
 		if (e.vpath===vPath){
 			if(e.type==="text/html" && !nyaDB.nyActive()){
 				nyanGetErr(res, files.err.db);
-				console.log(`Internal ERROR [nyanRouting]: Database unavailble. Client requested "${vPath}" but will be delivered error page instead.`);
+				console.log(`Internal ERROR [nyanRouting]: Database unavailable. Client requested "${vPath}" but will be delivered error page instead.`);
 			}else{	
 				getFile(res, e.path, e.type);
 			}
@@ -78,12 +83,43 @@ function nyanGet(res, vPath){
 		}
 	}
 
+	// Search database
+
+
 	nyanGetErr(res, files.err.nyan);
-	console.log(`Client requested a site that isn't in the list accepeted paths: "${vPath}"`);
+	console.log(`Client requested a site that isn't in the list accepted paths: "${vPath}"`);
 	return;
 }
 
-/** Return the requested error page
+
+/** 
+ * 
+ * @param {any}	res reference to custom response json (updatable)
+ * @param {string} req post request
+ */
+function nyanPost(res, req){
+	if(req.url==="/newData"){
+		let body = [], end=false;
+		req.on("data", d => {
+			body.push(d);
+		}).on("end",()=>{
+			body = Buffer.concat(body).toString();
+			// TODO: call db
+			end=true;
+		}).on("error", err => {
+			nyanGetErr(res, files.err.nyan);
+			return res;
+		});
+		
+		res.head.status = 200;
+		res.val = `File loaded. Redirecting... :)`;
+		console.error(`Internal INFO [nyanRouting]: File Loaded`);
+
+		return res;	
+	}
+}
+
+/** 
  * 
  * @param {any}	res reference to custom reponse json (updatable)
  * @param {any} errType file error object
@@ -109,5 +145,6 @@ function getFile(res, path, type){
 	return;
 }
 
-// Funtions
+
+// Funtion Exports
 exports.nyanReq = nyanReq;
